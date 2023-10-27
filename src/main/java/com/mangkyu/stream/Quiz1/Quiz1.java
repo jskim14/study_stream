@@ -34,13 +34,29 @@ public class Quiz1 {
                 .flatMap(s -> Arrays.stream(s.split(":"))) //평탄화
                 .collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum)); //중복 갯수 구하기
 
+        Map<String, Integer> collect1 = csvLines.stream()
+                .map(strings -> strings[1].replaceAll("\\s", ""))
+                .flatMap(s -> Arrays.stream(s.split(":")))
+                .collect(Collectors.toMap(hobby -> hobby, hobby -> 1, (oldVal, newVal) -> oldVal +=newVal)); //oldVal = oldVal + newVal
 
-        return collect;
+        System.out.println("collect1 = " + collect1);
+
+        return collect1;
     }
 
     // 1.2 각 취미를 선호하는 정씨 성을 갖는 인원이 몇 명인지 계산하여라.
+    /*
+    * 취미 출력
+    * 이름만 추출해서 name.matches("정(.*)")
+    * */
     public Map<String, Integer> quiz2() throws IOException {
         List<String[]> csvLines = readCsvLines();
+
+        csvLines.stream()
+                .map(name -> name[0])
+                .filter(name -> name.contains("정"))
+                ;
+
         return new HashMap<>();
     }
 
