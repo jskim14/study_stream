@@ -52,12 +52,14 @@ public class Quiz1 {
     public Map<String, Integer> quiz2() throws IOException {
         List<String[]> csvLines = readCsvLines();
 
-        csvLines.stream()
-                .map(name -> name[0])
-                .filter(name -> name.contains("정"))
-                ;
+        Map<String, Integer> collect = csvLines.stream()
+                .filter(name -> name[0].matches("정(.*)"))
+                .map(strings -> strings[1].replaceAll("\\s", ""))
+                .flatMap(s -> Arrays.stream(s.split(":")))
+                .collect(Collectors.toMap(hobby -> hobby, hobby -> 1, (oldVal, newVal) -> ++newVal));
 
-        return new HashMap<>();
+
+        return collect;
     }
 
     // 1.3 소개 내용에 '좋아'가 몇번 등장하는지 계산하여라.
